@@ -1,0 +1,9 @@
+<div ng-if="loaded">
+<a href="#!/songs">return</a>
+<!--<button ng-click="$ctrl.backToList()">return</button>-->
+
+<h1>{{$ctrl.song.title}}</h1>
+<!--<p>{{$ctrl.song.description}}</p>-->
+
+<p ng-repeat="sentence in $ctrl.song.lyrics track by $index">{{sentence}}</p>
+</div>

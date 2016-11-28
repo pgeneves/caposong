@@ -1,0 +1,35 @@
+<div class="container-fluid" ng-if="loaded">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      <p>
+        <button ng-click="$ctrl.refreshData()">Refresh</button>
+      </p>
+
+      <p>
+        Search:
+        <input ng-model="$ctrl.query" />
+      </p>
+
+      <p>
+        Sort by:
+        <select ng-model="$ctrl.orderProp">
+          <option value="name">Alphabetical</option>
+        </select>
+      </p>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="songs">
+        <li ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp"
+            class="song-list-item">
+          <a href="#!/songs/{{song.id}}">{{song.name}}</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

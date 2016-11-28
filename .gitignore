@@ -1,0 +1,13 @@
+logs/*
+!.gitkeep
+node_modules/
+tmp
+.idea
+.DS_Store
+**/bower_components/
+scripts/
+*.iml
+data/*
+target/
+
+
