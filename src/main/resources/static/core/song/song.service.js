@@ -19,7 +19,7 @@ angular.
                     console.log(response.data);
                     deferred.resolve(response.data)
                 });
-            }.bind(this),2000)
+            }.bind(this),500)
           }.bind(fac)
 
         fac.refreshSongList = function() {
@@ -40,7 +40,7 @@ angular.
                     console.log(response.data);
                     deferred.resolve(response.data)
                 });
-            }.bind(this),2000)
+            }.bind(this),500)
           return deferred.promise;
         }.bind(fac)
 

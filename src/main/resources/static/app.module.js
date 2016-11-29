@@ -6,4 +6,5 @@ angular.module('CapoSongApp', [
   'core',
   'songList',
   'songDetail',
+  'header'
 ]);
