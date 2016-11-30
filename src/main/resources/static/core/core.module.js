@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('core', ['core.song']);
+angular.module('core', ['core.song', 'core.translate']);

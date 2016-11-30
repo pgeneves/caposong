@@ -4,7 +4,7 @@ angular.
   module('songList').
   component('songList', {
     templateUrl: 'song-list/song-list.template.html',
-    controller: ['$scope', 'Song', function SongListController($scope, Song) {
+    controller: ['$scope', 'Lang', 'Song', function SongListController($scope, Lang, Song) {
         this.orderProp = 'name';
 
         this.refreshData = function() {
@@ -16,6 +16,9 @@ angular.
         }
 
         $scope.loaded = false;
+        Lang.getAllText().then(function(result) {
+            $scope.langText = result;
+        });
         this.refreshData();
       }
     ]
