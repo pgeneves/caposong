@@ -16,9 +16,11 @@ angular.
         }
 
         $scope.loaded = false;
-        Lang.getAllText().then(function(result) {
-            $scope.langText = result;
-        });
+        this.langService = Lang;
+//
+//        Lang.getAllText().then(function(result) {
+//            $scope.langText = result;
+//        });
         this.refreshData();
       }
     ]

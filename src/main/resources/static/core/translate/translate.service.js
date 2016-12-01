@@ -10,6 +10,7 @@ angular.
         fac.langMapPromises = [];
         fac.langMap = {'en':0,'pt':1,'fr':2};
         fac.curLang=fac.langMap['en'];
+        fac.cachedText={0:{},1:{},2:{}};
         console.log("Instantiating Lang");
 
         fac._refreshLangList = function(deferred, lang) {
@@ -36,17 +37,26 @@ angular.
         }.bind(fac)
 
         fac.getText = function(txtKey) {
-          return this.$q.all(this.langMapPromises).then(function(results){
-              return results[this.curLang][txtKey];
-          }.bind(this))
+          return this.cachedText[this.curLang][txtKey];
         }.bind(fac)
 
         fac.getAllText = function() {
+          return this.cachedText[this.curLang];
+        }.bind(fac)
+
+        fac.setLang = function(langKey) {
+            this.curLang=this.langMap[langKey];
+        }.bind(fac)
+
+        fac.cacheText = function() {
           return this.$q.all(this.langMapPromises).then(function(results){
-              return results[this.curLang];
+              return results;
           }.bind(this))
         }.bind(fac)
 
         fac.loadText();
+        fac.cacheText().then(function(result) {
+               this.cachedText = result;
+           }.bind(fac));;
         return fac;
   }]);
