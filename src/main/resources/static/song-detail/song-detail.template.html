@@ -1,9 +1,19 @@
+<!--<div class="container-fluid" ng-if="loaded">-->
 <div ng-if="loaded">
-<a href="#!/songs">return</a>
-<!--<button ng-click="$ctrl.backToList()">return</button>-->
-
-<h1>{{$ctrl.song.title}}</h1>
-<!--<p>{{$ctrl.song.description}}</p>-->
-
-<p ng-repeat="sentence in $ctrl.song.lyrics track by $index">{{sentence}}</p>
+    <div class="row">
+        <div class="col-xs-1">
+            <a href="#!/songs">return</a>
+        </div>
+        <div class="col-xs-11">&nbsp</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>{{$ctrl.song.title}}</h1>
+        </div>
+    </div>
+    <div class="row" ng-repeat="sentence in $ctrl.song.lyrics track by $index">{{sentence}}</p>
+        <div class="col-xs-12">
+            <h6>{{sentence}}</h6>
+        </div>
+    </div>
 </div>

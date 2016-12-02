@@ -2,6 +2,7 @@
 <html lang="en" ng-app="CapoSongApp">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Caposong</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="caposong.css" />
@@ -28,10 +29,12 @@
     <script src="header/header.component.js"></script>
   </head>
   <body>
+  <div class="container-fluid">
     <header></header>
     <div class="view-container">
       <div ng-view class="view-frame"></div>
     </div>
+  </div>
 
   </body>
 </html>

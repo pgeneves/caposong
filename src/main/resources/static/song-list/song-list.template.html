@@ -1,35 +1,21 @@
-<div class="container-fluid" ng-if="loaded">
-  <div class="row">
-    <div class="col-md-2">
-      <!--Sidebar content-->
-
-      <p>
-        <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.getText("refresh")}}</button>
-      </p>
-
-      <p>
-        Search:
-        <input ng-model="$ctrl.query" />
-      </p>
-
-      <p>
-        Sort by:
-        <select ng-model="$ctrl.orderProp">
-          <option value="name">Alphabetical</option>
-        </select>
-      </p>
-
+<!--<div class="container-fluid" ng-if="loaded">-->
+<div ng-if="loaded">
+    <div class="row">
+        <div class="col-xs-2">
+            <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.getText("refresh")}}</button>
+        </div>
+        <div class="col-xs-1">
+            Search
+        </div>
+        <div class="col-xs-2">
+            <input ng-model="$ctrl.query"/>
+        </div>
+        <div class="col-xs-7">&nbsp</div>
     </div>
-    <div class="col-md-10">
-      <!--Body content-->
-
-      <ul class="songs">
-        <li ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp"
-            class="song-list-item">
-          <a href="#!/songs/{{song.id}}">{{song.name}}</a>
-        </li>
-      </ul>
-
+    <div class="row" ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp"
+         class="song-list-item">
+        <div class="col-xs-12">
+            <a href="#!/songs/{{song.id}}">{{song.name}}</a>
+        </div>
     </div>
-  </div>
 </div>

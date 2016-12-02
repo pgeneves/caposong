@@ -1,16 +1,6 @@
-body {
-  padding: 20px;
-}
-
-h1 {
-  border-bottom: 1px solid gray;
-  margin-top: 0;
-}
-
 .header {
   background-color: green;
   border: 1px solid black;
-  margin: 1em;
 }
 
 .header_icon {
