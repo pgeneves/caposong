@@ -7,7 +7,7 @@ tmp
 **/bower_components/
 scripts/
 *.iml
-data/*
+# data/*
 target/
 
 
