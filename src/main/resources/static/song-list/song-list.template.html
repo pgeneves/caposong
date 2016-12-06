@@ -1,6 +1,7 @@
 <!--<div class="container-fluid" ng-if="loaded">-->
 <div ng-if="loaded">
-    <div class="row">
+    <br>
+    <div class="col-xs-12">
         <div class="col-xs-2">
             <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.getText("refresh")}}</button>
         </div>
@@ -12,10 +13,10 @@
         </div>
         <div class="col-xs-7">&nbsp</div>
     </div>
-    <div class="row" ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp"
-         class="song-list-item">
+    <br>
+    <div ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp">
         <div class="col-xs-12">
-            <a href="#!/songs/{{song.id}}">{{song.name}}</a>
+            <a href="#!/songs/{{song.id}}"><h4>{{song.name}}</h4></a>
         </div>
     </div>
 </div>
