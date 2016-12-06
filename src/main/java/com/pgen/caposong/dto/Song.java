@@ -1,10 +1,16 @@
 package com.pgen.caposong.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Song {
     private final int id;
     private final String name;
 
-    public Song(int id, String name) {
+    @JsonCreator
+    public Song(@JsonProperty("id") int id, @JsonProperty("title") String name) {
         this.id = id;
         this.name = name;
     }
@@ -24,14 +30,12 @@ public class Song {
 
         Song song = (Song) o;
 
-        if (id != song.id) return false;
-        return !(name != null ? !name.equals(song.name) : song.name != null);
+        return id == song.id;
+
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return id;
     }
 }

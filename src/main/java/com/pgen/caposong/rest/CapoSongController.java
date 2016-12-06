@@ -1,6 +1,7 @@
 package com.pgen.caposong.rest;
 
 import com.pgen.caposong.dto.Song;
+import com.pgen.caposong.dto.SongLyrics;
 import com.pgen.caposong.services.ISongService;
 import com.pgen.caposong.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class CapoSongController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<Song> listAllUsers() {
         return songService.getSongs();
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public SongLyrics getUser() {
+        return songService.getSong(0);
     }
 }
