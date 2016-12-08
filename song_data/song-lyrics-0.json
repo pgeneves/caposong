@@ -7,13 +7,15 @@
     "Capoeira de Angola",
     "Jogada na beira do mar"
   ],
-  "translate": {
-    "lang": "fr",
-    "lyrics": [
-      "c'est de yoyo",
-      "c'est de yaya",
-      "La Capoeira d'Angola",
-      "Jouée au bord de la mer"
-    ]
-  }
+  "translate": [
+    {
+      "lang": "fr",
+      "lyrics": [
+        "c'est de yoyo",
+        "c'est de yaya",
+        "La Capoeira d'Angola",
+        "Jouée au bord de la mer"
+      ]
+    }
+  ]
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-@Service
+@Service("songService")
 public class SongService implements ISongService {
     private final boolean dynamic = true;
     private AtomicReference<List<SongLyrics>> songCache = new AtomicReference<>();

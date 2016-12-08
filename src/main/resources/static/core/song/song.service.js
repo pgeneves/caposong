@@ -35,7 +35,7 @@ angular.
           var deferred = this.$q.defer();
           this.$timeout(function() {
 //             this.$http.get("/song-data/song-lyrics-"+songId+".json")
-             this.$http.get("/song-data/get")
+             this.$http.get("/song-data/get?id="+songId)
                  .then(function(response) {
                     console.log("Got song lyrics data");
                     console.log(response.data);

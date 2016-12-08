@@ -14,6 +14,8 @@ public class SongLyrics {
     private Song songItem;
     @JsonProperty("lyrics")
     private List<String> lyrics;
+    @JsonProperty("translate")
+    private List<SongTranslate> translates;
 
     public List<String> getLyrics() {
         return lyrics;
@@ -29,6 +31,14 @@ public class SongLyrics {
 
     public Song getSongItem() {
         return songItem;
+    }
+
+    public List<SongTranslate> getTranslates() {
+        return translates;
+    }
+
+    public void setTranslates(List<SongTranslate> translates) {
+        this.translates = translates;
     }
 
     @Override

@@ -9,6 +9,7 @@ angular.
         fac.$timeout =$timeout;
         fac.langMapPromises = [];
         fac.langMap = {'en':0,'pt':1,'fr':2};
+        fac.curLangKey='en';
         fac.curLang=fac.langMap['en'];
         fac.cachedText={0:{},1:{},2:{}};
         console.log("Instantiating Lang");
@@ -44,7 +45,12 @@ angular.
           return this.cachedText[this.curLang];
         }.bind(fac)
 
+        fac.getLangKey = function() {
+          return this.curLangKey;
+        }.bind(fac)
+
         fac.setLang = function(langKey) {
+            this.curLangKey=langKey;
             this.curLang=this.langMap[langKey];
         }.bind(fac)
 
