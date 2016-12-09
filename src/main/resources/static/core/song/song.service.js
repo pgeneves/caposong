@@ -11,15 +11,12 @@ angular.
         console.log("Instantiating Song");
 
         fac._refreshSongList = function(deferred) {
-          this.$timeout(function() {
-//             this.$http.get("/song-data/song-data.json")
-             this.$http.get("/song-data/list")
-                 .then(function(response) {
-                    console.log("Got song data");
-                    console.log(response.data);
-                    deferred.resolve(response.data)
-                });
-            }.bind(this),500)
+         this.$http.get("/song-data/list")
+             .then(function(response) {
+                console.log("Got song data");
+                console.log(response.data);
+                deferred.resolve(response.data)
+            });
           }.bind(fac)
 
         fac.refreshSongList = function() {
@@ -33,15 +30,12 @@ angular.
 
         fac.getSongLyricsPromise = function(songId) {
           var deferred = this.$q.defer();
-          this.$timeout(function() {
-//             this.$http.get("/song-data/song-lyrics-"+songId+".json")
-             this.$http.get("/song-data/get?id="+songId)
-                 .then(function(response) {
-                    console.log("Got song lyrics data");
-                    console.log(response.data);
-                    deferred.resolve(response.data)
-                });
-            }.bind(this),500)
+         this.$http.get("/song-data/get?id="+songId)
+             .then(function(response) {
+                console.log("Got song lyrics data");
+                console.log(response.data);
+                deferred.resolve(response.data)
+            });
           return deferred.promise;
         }.bind(fac)
 

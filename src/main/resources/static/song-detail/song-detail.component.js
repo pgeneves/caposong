@@ -5,13 +5,18 @@ angular.
   component('songDetail', {
     templateUrl: 'song-detail/song-detail.template.html',
     bindings: { $router: '<'},
-    controller: ['$scope', '$routeParams', 'Lang', 'Song',
-      function SongDetailController($scope, $routeParams, Lang, Song) {
+    controller: ['$rootScope', '$scope', '$routeParams', 'Lang', 'Song',
+      function SongDetailController($rootScope, $scope, $routeParams, Lang, Song) {
         this.langService = Lang;
 
-        this.refreshData = function() {
+        this.reloadData = function() {
           Song.getSongLyricsPromise($routeParams.songId).then(function(data) {
             this.song = data;
+            this.refreshData();
+          }.bind(this))
+        }
+
+        this.refreshData = function() {
             var songTranslate = [];
             this.songData = [];
             // Get current translation
@@ -31,7 +36,6 @@ angular.
                 this.songData.push([lyr, trn]);
             }
             $scope.loaded = true;
-          }.bind(this))
         }
 
         this.backToList = function() {
@@ -39,7 +43,9 @@ angular.
         }
 
         $scope.loaded = false;
-        this.refreshData();
+        $rootScope.$watch('current_lang', function() {
+            this.reloadData();
+        }.bind(this))
       }
     ]
   });

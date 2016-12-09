@@ -4,7 +4,7 @@ angular.
   module('header').
   component('header', {
     templateUrl: 'header/header.template.html',
-    controller: ['$scope', 'Lang', function HeaderController($scope, Lang) {
+    controller: ['$route', '$rootScope', '$scope', 'Lang', function HeaderController($route, $rootScope, $scope, Lang) {
         $scope.allLangs = [{label:'Français', key:'fr'},
         {label:'Portuguêse', key:'pt'},
         {label:'English', key:'en'},];
@@ -15,6 +15,8 @@ angular.
         this.setLang = function(newValue) {
             if (newValue != null) {
                 this.langService.setLang(newValue.key);
+                $rootScope.current_lang = newValue.key;
+//                $route.reload();
             }
         };
         this.setLang($scope.selected_lang);

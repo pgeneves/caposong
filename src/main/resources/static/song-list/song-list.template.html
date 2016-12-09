@@ -1,7 +1,7 @@
 <!--<div class="container-fluid" ng-if="loaded">-->
-<div ng-if="loaded">
+<div ng-if="loaded" ng-cloak>
     <br>
-    <div class="col-xs-12">
+    <div class="col-xs-12 view_control_pane">
         <div class="col-xs-2" ng-if="false" >
             <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.getText("refresh")}}</button>
         </div>
