@@ -2,10 +2,10 @@
 <div ng-if="loaded">
     <br>
     <div class="col-xs-12">
-        <div class="col-xs-1">
-            <a href="#!/songs">return</a>
+        <div class="col-xs-6">
+            <a href="#!/songs">{{$ctrl.langService.getText("return")}}</a>
         </div>
-        <div class="col-xs-11">&nbsp</div>
+        <div class="col-xs-6">&nbsp</div>
     </div>
     <div class="col-xs-12">
         <h1>{{$ctrl.song.title}}</h1>

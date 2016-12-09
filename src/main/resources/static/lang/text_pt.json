@@ -1,3 +1,5 @@
 {
-  "refresh":"Actualizar"
+  "return":"voltar pra lista",
+  "refresh":"actualizar",
+  "search":"buscar"
 }
