@@ -12,14 +12,11 @@ angular.
         fac.curLangKey='en';
         fac.curLang=fac.langMap['en'];
         fac.cachedText={0:{},1:{},2:{}};
-        console.log("Instantiating Lang");
 
         fac._refreshLangList = function(deferred, lang) {
           this.$timeout(function() {
              this.$http.get("/lang/text_"+lang+".json")
                  .then(function(response) {
-                    console.log("Got en text");
-                    console.log(response.data);
                     deferred.resolve(response.data)
                 });
             }.bind(this),500)

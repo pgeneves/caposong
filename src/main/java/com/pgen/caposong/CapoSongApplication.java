@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @SpringBootApplication
-@EnableJSONDoc
 public class CapoSongApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(CapoSongApplication.class, args);

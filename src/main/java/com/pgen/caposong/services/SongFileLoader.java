@@ -22,7 +22,7 @@ public class SongFileLoader {
                 new String[]{"json"}, false); it.hasNext();) {
             // Load file content as a JSON object
             try {
-                // deserialize contents of each file into an object of type
+                // deserialize contents of each file into an object
                 SongLyrics song = jsonMapper.readValue(it.next(), SongLyrics.class);
                 songs.add(song);
             } catch (IOException e) {

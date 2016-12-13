@@ -8,13 +8,10 @@ angular.
         fac.$q = $q;
         fac.$timeout =$timeout;
         fac.songList = null;
-        console.log("Instantiating Song");
 
         fac._refreshSongList = function(deferred) {
          this.$http.get("/song-data/list")
              .then(function(response) {
-                console.log("Got song data");
-                console.log(response.data);
                 deferred.resolve(response.data)
             });
           }.bind(fac)
@@ -32,8 +29,6 @@ angular.
           var deferred = this.$q.defer();
          this.$http.get("/song-data/get?id="+songId)
              .then(function(response) {
-                console.log("Got song lyrics data");
-                console.log(response.data);
                 deferred.resolve(response.data)
             });
           return deferred.promise;

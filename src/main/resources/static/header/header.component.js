@@ -16,7 +16,6 @@ angular.
             if (newValue != null) {
                 this.langService.setLang(newValue.key);
                 $rootScope.current_lang = newValue.key;
-//                $route.reload();
             }
         };
         this.setLang($scope.selected_lang);
