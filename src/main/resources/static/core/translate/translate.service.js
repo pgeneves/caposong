@@ -1,65 +1,75 @@
 'use strict';
 
-angular.
-  module('core.translate').
-  factory('Lang', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
-        var fac = {}
-        fac.$http = $http;
-        fac.$q = $q;
-        fac.$timeout =$timeout;
-        fac.langMapPromises = [];
-        fac.langMap = {'en':0,'pt':1,'fr':2};
-        fac.curLangKey='en';
-        fac.curLang=fac.langMap['en'];
-        fac.cachedText={0:{},1:{},2:{}};
+function Translate_service($http, $q, $timeout) {
+        this.$http = $http;
+        this.$q = $q;
+        this.$timeout =$timeout;
+        this.langMapPromises = null;
+        this.langMap=null;
+        this.curLangKey=null;
+        this.curLang=null;
+        this.cachedText=null;
+        this.messages={};
 
-        fac._refreshLangList = function(deferred, lang) {
+        // Define all supported lang
+        this.allLangs = [{label:'Français', key:'fr'},
+        {label:'Portuguêse', key:'pt'},
+        {label:'English', key:'en'},];
+
+        this.getLangKey = function() {
+          return this.curLangKey;
+        };
+
+        this.setLang = function(langKey) {
+            this.curLangKey=langKey;
+            this.curLang=this.langMap[langKey];
+            this.messages=this.cachedText[this.curLang];
+        };
+
+        this._loadLangFile = function(deferred, lang) {
           this.$timeout(function() {
              this.$http.get("/lang/text_"+lang+".json")
                  .then(function(response) {
+                    console.debug("Got en text");
+                    console.debug(response.data);
                     deferred.resolve(response.data)
                 });
             }.bind(this),500)
-          }.bind(fac)
+        };
 
-        fac.loadText = function() {
-            var promise_en = this.$q.defer();
-            var promise_pt = this.$q.defer();
-            var promise_fr = this.$q.defer();
-            this._refreshLangList(promise_en, "en");
-            this._refreshLangList(promise_pt, "pt");
-            this._refreshLangList(promise_fr, "fr");
-            this.langMapPromises.push(promise_en.promise);
-            this.langMapPromises.push(promise_pt.promise);
-            this.langMapPromises.push(promise_fr.promise);
-        }.bind(fac)
+        this._initialize = function() {
+            this.langMapPromises = [];
+            this.langMap = {};
+            this.cachedText = {};
+            var idx=0;
+            this.allLangs.forEach( function(lang) {
+                this.langMap[lang.key] = idx;
+                this.cachedText[idx] = {};
+                var promise_lng = this.$q.defer();
+                this._loadLangFile(promise_lng, lang.key);
+                this.langMapPromises.push(promise_lng.promise);
+                idx++;
+            }.bind(this));
+            this.curLangKey='en';
+            this.curLang=this.langMap['en'];
+        };
 
-        fac.getText = function(txtKey) {
-          return this.cachedText[this.curLang][txtKey];
-        }.bind(fac)
-
-        fac.getAllText = function() {
-          return this.cachedText[this.curLang];
-        }.bind(fac)
-
-        fac.getLangKey = function() {
-          return this.curLangKey;
-        }.bind(fac)
-
-        fac.setLang = function(langKey) {
-            this.curLangKey=langKey;
-            this.curLang=this.langMap[langKey];
-        }.bind(fac)
-
-        fac.cacheText = function() {
+        this._cacheText = function() {
+          this._initialize();
           return this.$q.all(this.langMapPromises).then(function(results){
               return results;
           }.bind(this))
-        }.bind(fac)
+        };
+}
 
-        fac.loadText();
-        fac.cacheText().then(function(result) {
+angular.
+  module('core.translate').
+  factory('Lang', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
+        console.debug("Instantiating Lang");
+        var service = new Translate_service($http, $q, $timeout);
+        service._cacheText().then(function(result) {
                this.cachedText = result;
-           }.bind(fac));;
-        return fac;
+               this.messages=this.cachedText[this.curLang];
+           }.bind(service));;
+        return service;
   }]);

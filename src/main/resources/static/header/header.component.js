@@ -5,9 +5,8 @@ angular.
   component('header', {
     templateUrl: 'header/header.template.html',
     controller: ['$route', '$rootScope', '$scope', 'Lang', function HeaderController($route, $rootScope, $scope, Lang) {
-        $scope.allLangs = [{label:'Français', key:'fr'},
-        {label:'Portuguêse', key:'pt'},
-        {label:'English', key:'en'},];
+        this.langService = Lang;
+        $scope.allLangs = this.langService.allLangs;
         $scope.selected_lang = $scope.allLangs[0];
         $scope.titleLabel = "CapoeiraSong";
         $scope.creditsLabel = "(c) pgeneves 2016";

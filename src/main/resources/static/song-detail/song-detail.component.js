@@ -22,7 +22,7 @@ angular.
             // Get current translation
             var translates = this.song.translate;
             for (var i=0; i<translates.length; i++) {
-                if (translates[i].lang === Lang.getLangKey()) {
+                if (translates[i].lang === this.langService.getLangKey()) {
                     songTranslate=translates[i].lyrics;
                 }
             }

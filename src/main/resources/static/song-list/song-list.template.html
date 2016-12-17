@@ -1,11 +1,10 @@
-<!--<div class="container-fluid" ng-if="loaded">-->
 <div ng-if="loaded" ng-cloak>
     <br>
     <div class="col-xs-12 view_control_pane">
         <div class="col-xs-2" ng-if="false" >
-            <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.getText("refresh")}}</button>
+            <button ng-click="$ctrl.refreshData()">{{$ctrl.langService.messages.refresh}}</button>
         </div>
-        <div class="col-xs-2">{{$ctrl.langService.getText("search")}}</div>
+        <div class="col-xs-2">{{$ctrl.langService.messages.search}}</div>
         <div class="col-xs-3">
             <input ng-model="$ctrl.query"/>
         </div>
