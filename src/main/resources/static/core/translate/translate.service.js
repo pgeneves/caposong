@@ -3,18 +3,36 @@
 angular.
   module('core.translate').
   factory('Lang', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
-        var fac = {}
-        fac.$http = $http;
-        fac.$q = $q;
-        fac.$timeout =$timeout;
-        fac.langMapPromises = [];
-        fac.langMap = {'en':0,'pt':1,'fr':2};
-        fac.curLangKey='en';
-        fac.curLang=fac.langMap['en'];
-        fac.cachedText={0:{},1:{},2:{}};
-        console.log("Instantiating Lang");
+        var translate = {}
+        translate.$http = $http;
+        translate.$q = $q;
+        translate.$timeout =$timeout;
 
-        fac._refreshLangList = function(deferred, lang) {
+        // Define all supported lang
+        translate.allLangs = [{label:'Français', key:'fr'},
+        {label:'Portuguêse', key:'pt'},
+        {label:'English', key:'en'},];
+
+        translate.langMapPromises = null;
+        translate.langMap=null;
+        translate.curLangKey=null;
+        translate.curLang=null;
+        translate.cachedText=null;
+
+        translate.messages={};
+        console.debug("Instantiating Lang");
+
+        translate.getLangKey = function() {
+          return this.curLangKey;
+        }.bind(translate)
+
+        translate.setLang = function(langKey) {
+            this.curLangKey=langKey;
+            this.curLang=this.langMap[langKey];
+            this.messages=this.cachedText[this.curLang];
+        }.bind(translate)
+
+        translate._loadLangFile = function(deferred, lang) {
           this.$timeout(function() {
              this.$http.get("/lang/text_"+lang+".json")
                  .then(function(response) {
@@ -23,46 +41,35 @@ angular.
                     deferred.resolve(response.data)
                 });
             }.bind(this),500)
-          }.bind(fac)
+          }.bind(translate)
 
-        fac.loadText = function() {
-            var promise_en = this.$q.defer();
-            var promise_pt = this.$q.defer();
-            var promise_fr = this.$q.defer();
-            this._refreshLangList(promise_en, "en");
-            this._refreshLangList(promise_pt, "pt");
-            this._refreshLangList(promise_fr, "fr");
-            this.langMapPromises.push(promise_en.promise);
-            this.langMapPromises.push(promise_pt.promise);
-            this.langMapPromises.push(promise_fr.promise);
-        }.bind(fac)
+        translate._initialize = function() {
+            this.langMapPromises = [];
+            this.langMap = {};
+            this.cachedText = {};
+            var idx=0;
+            this.allLangs.forEach( function(lang) {
+                this.langMap[lang.key] = idx;
+                this.cachedText[idx] = {};
+                var promise_lng = this.$q.defer();
+                this._loadLangFile(promise_lng, lang.key);
+                this.langMapPromises.push(promise_lng.promise);
+                idx++;
+            }.bind(this));
+            this.curLangKey='en';
+            this.curLang=this.langMap['en'];
+        }.bind(translate)
 
-        fac.getText = function(txtKey) {
-          return this.cachedText[this.curLang][txtKey];
-        }.bind(fac)
-
-        fac.getAllText = function() {
-          return this.cachedText[this.curLang];
-        }.bind(fac)
-
-        fac.getLangKey = function() {
-          return this.curLangKey;
-        }.bind(fac)
-
-        fac.setLang = function(langKey) {
-            this.curLangKey=langKey;
-            this.curLang=this.langMap[langKey];
-        }.bind(fac)
-
-        fac.cacheText = function() {
+        translate._cacheText = function() {
           return this.$q.all(this.langMapPromises).then(function(results){
               return results;
           }.bind(this))
-        }.bind(fac)
+        }.bind(translate)
 
-        fac.loadText();
-        fac.cacheText().then(function(result) {
+        translate._initialize();
+        translate._cacheText().then(function(result) {
                this.cachedText = result;
-           }.bind(fac));;
-        return fac;
+               this.messages=this.cachedText[this.curLang];
+           }.bind(translate));;
+        return translate;
   }]);
