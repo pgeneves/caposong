@@ -9,5 +9,19 @@ scripts/
 *.iml
 # data/*
 target/
+**/android/*.apk
+**/android/CapoSong/.gradle
+**/android/CapoSong/.idea
+**/android/CapoSong/*.iml
+**/android/CapoSong/build/*
+**/android/CapoSong/gradle
+**/android/CapoSong/gradlew
+**/android/CapoSong/gradle.bat
+**/android/CapoSong/local.properties
+**/android/CapoSong/Application/build/*
+**/android/CapoSong/Application/tests/*
+**/android/CapoSong/Application/*.iml
+
+
 
 
