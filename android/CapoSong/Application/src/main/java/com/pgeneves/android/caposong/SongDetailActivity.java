@@ -3,7 +3,14 @@ package com.pgeneves.android.caposong;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by phil on 18/12/2016.
@@ -24,11 +31,4 @@ public class SongDetailActivity extends FragmentActivity {
             ft.commit();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.song_detail, menu);
-        return true;
-    }
-
 }

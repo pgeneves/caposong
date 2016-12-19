@@ -16,7 +16,7 @@
         android:allowBackup="true">
 
         <activity
-            android:name="com.pgeneves.android.caposong.ListActivity"
+            android:name="com.pgeneves.android.caposong.SongListActivity"
             android:label="@string/app_name"
             android:uiOptions="splitActionBarWhenNarrow">
 

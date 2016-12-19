@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
  * Created by phil on 18/12/2016.
  */
 
-public class ListActivity extends FragmentActivity implements SongsListFragment.OnItemSelectedListener {
+public class SongListActivity extends FragmentActivity implements SongsListFragment.OnItemSelectedListener {
     private boolean isTwoPane = false;
 
     @Override
@@ -39,7 +39,7 @@ public class ListActivity extends FragmentActivity implements SongsListFragment.
 
     @Override
     public void onItemSelected(SongItem item) {
-        if (isTwoPane) { // single activity with list and detail
+        if (isTwoPane) { // single activity with langsLabel and detail
             // Replace frame layout with correct detail fragment
             SongDetailFragment fragmentItem = SongDetailFragment.newInstance(item);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

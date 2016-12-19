@@ -1,16 +1,19 @@
 package com.pgeneves.android.caposong;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by phil on 09/12/2016.
  */
 
-public class SongItem implements Serializable {
+public class SongDetailItem implements Serializable {
     private int id;
     private String name;
+    private List<String> lyrics;
+    private List<SongTranslate> translations;
 
-    public SongItem(int id, String title) {
+    public SongDetailItem(int id, String title) {
         this.id = id;
         this.name = title;
     }
@@ -31,12 +34,28 @@ public class SongItem implements Serializable {
         this.name = name;
     }
 
+    public List<String> getLyrics() {
+        return lyrics;
+    }
+
+    public void setLyrics(List<String> lyrics) {
+        this.lyrics = lyrics;
+    }
+
+    public List<SongTranslate> getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations(List<SongTranslate> translations) {
+        this.translations = translations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SongItem songItem = (SongItem) o;
+        SongDetailItem songItem = (SongDetailItem) o;
 
         if (id != songItem.id) return false;
         return name != null ? name.equals(songItem.name) : songItem.name == null;
