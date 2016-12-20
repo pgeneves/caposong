@@ -5,14 +5,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -35,6 +40,8 @@ public class SongsListFragment extends Fragment {
     private ArrayAdapter<SongItem> adapterItems;
     private ListView lvItems;
     private String selectedLangKey;
+    private String filterText="";
+    private SongItem[] loadedSongs = new SongItem[0];
 
     private OnItemSelectedListener listener;
 
@@ -71,6 +78,26 @@ public class SongsListFragment extends Fragment {
                 false);
 
         selectedLangKey = loadLanguage();
+
+        EditText searchText = (EditText) view.findViewById(R.id.searchText);
+        searchText.setText("");
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filterText = s.toString();
+                refreshListView();
+            }
+        });
 
         Spinner spinner = (Spinner) view.findViewById(R.id.lang_spinner);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
@@ -143,6 +170,20 @@ public class SongsListFragment extends Fragment {
         return false;
     }
 
+    private void refreshListView() {
+        songList.clear();
+        for (SongItem itm : loadedSongs) {
+            if ((filterText != null) && (!"Search".equalsIgnoreCase(filterText))
+                    && filterText.trim().length() > 0) {
+                if (!itm.getName().toLowerCase().contains(filterText.toLowerCase())) {
+                    continue;
+                }
+            }
+            songList.add(itm);
+        }
+        adapterItems.notifyDataSetChanged();
+    }
+
     private void loadContent() {
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
@@ -150,12 +191,9 @@ public class SongsListFragment extends Fragment {
                 songList.clear();
                 try {
                     Gson gson = new Gson();
-                    SongItem[] lst = gson.fromJson(result, SongItem[].class);
-                    for (SongItem itm : lst) {
-                        songList.add(itm);
-                    }
-                    adapterItems.notifyDataSetChanged();
+                    loadedSongs = gson.fromJson(result, SongItem[].class);
                 } catch(Exception ex) {
+                    loadedSongs = new SongItem[0];
                     ex.printStackTrace();
                     System.out.println("Error while parsing JSON "+result);
                     // Schedule a reload
@@ -168,6 +206,7 @@ public class SongsListFragment extends Fragment {
                         }
                     }, 10, TimeUnit.SECONDS);
                 }
+                refreshListView();
             }
         }).execute("https://caposong.herokuapp.com/song-data/list");
     }
