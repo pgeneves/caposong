@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +67,7 @@ public class SongsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         System.out.println("onCreateView");
         // Inflate view
-        View view = inflater.inflate(R.layout.fragment_items_list, container,
+        View view = inflater.inflate(R.layout.fragment_songs_list, container,
                 false);
 
         selectedLangKey = loadLanguage();
@@ -128,6 +127,10 @@ public class SongsListFragment extends Fragment {
             }
         }
         return langsKey.get(0);
+    }
+
+    public String getSelectedLangKey() {
+        return selectedLangKey;
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 public class SongListActivity extends FragmentActivity implements SongsListFragment.OnItemSelectedListener {
     private boolean isTwoPane = false;
+    private SongsListFragment fragmentItemsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +23,10 @@ public class SongListActivity extends FragmentActivity implements SongsListFragm
     }
 
     private void determinePaneLayout() {
+        fragmentItemsList = (SongsListFragment) getSupportFragmentManager().findFragmentById(R.id.SongsListFragment);
         FrameLayout fragmentItemDetail = (FrameLayout) findViewById(R.id.flDetailContainer);
         if (fragmentItemDetail != null) {
             isTwoPane = true;
-            SongsListFragment fragmentItemsList =
-                    (SongsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentItemsList);
             fragmentItemsList.setActivateOnItemClick(true);
         }
     }
@@ -41,7 +41,8 @@ public class SongListActivity extends FragmentActivity implements SongsListFragm
     public void onItemSelected(SongItem item) {
         if (isTwoPane) { // single activity with langsLabel and detail
             // Replace frame layout with correct detail fragment
-            SongDetailFragment fragmentItem = SongDetailFragment.newInstance(item);
+            SongDetailFragment fragmentItem = SongDetailFragment.newInstance(item,
+                    fragmentItemsList.getSelectedLangKey());
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flDetailContainer, fragmentItem);
             ft.commit();
@@ -49,6 +50,7 @@ public class SongListActivity extends FragmentActivity implements SongsListFragm
             // launch detail activity using intent
             Intent i = new Intent(this, SongDetailActivity.class);
             i.putExtra("item", item);
+            i.putExtra("langKey", fragmentItemsList.getSelectedLangKey());
             startActivity(i);
         }
     }

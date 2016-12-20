@@ -11,7 +11,7 @@ public class SongDetailItem implements Serializable {
     private int id;
     private String name;
     private List<String> lyrics;
-    private List<SongTranslate> translations;
+    private List<SongTranslate> translate;
 
     public SongDetailItem(int id, String title) {
         this.id = id;
@@ -42,12 +42,12 @@ public class SongDetailItem implements Serializable {
         this.lyrics = lyrics;
     }
 
-    public List<SongTranslate> getTranslations() {
-        return translations;
+    public List<SongTranslate> getTranslate() {
+        return translate;
     }
 
-    public void setTranslations(List<SongTranslate> translations) {
-        this.translations = translations;
+    public void setTranslate(List<SongTranslate> translate) {
+        this.translate = translate;
     }
 
     @Override

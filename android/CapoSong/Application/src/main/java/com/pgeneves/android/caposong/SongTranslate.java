@@ -8,15 +8,15 @@ import java.util.List;
  */
 
 public class SongTranslate implements Serializable {
-    private String langKey;
+    private String lang;
     private List<String> lyrics;
 
-    public String getLangKey() {
-        return langKey;
+    public String getLang() {
+        return lang;
     }
 
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     public List<String> getLyrics() {

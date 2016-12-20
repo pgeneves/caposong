@@ -9,12 +9,12 @@
     android:layout_height="match_parent" >
 
     <fragment
-        android:id="@+id/fragmentItemsList"
+        android:id="@+id/SongsListFragment"
         android:name="com.pgeneves.android.caposong.SongsListFragment"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
-        tools:layout="@layout/fragment_items_list" />
+        tools:layout="@layout/fragment_songs_list" />
 
     <View android:background="#000000"
         android:layout_width="1dp"

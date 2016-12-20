@@ -24,8 +24,9 @@ public class SongDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
         SongItem item = (SongItem) getIntent().getSerializableExtra("item");
+        String langKey = (String) getIntent().getSerializableExtra("langKey");
         if (savedInstanceState == null) {
-            fragmentItemDetail = SongDetailFragment.newInstance(item);
+            fragmentItemDetail = SongDetailFragment.newInstance(item, langKey);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flDetailContainer, fragmentItemDetail);
             ft.commit();
