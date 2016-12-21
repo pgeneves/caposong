@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service("songService")
 public class SongService implements ISongService {
     private final boolean dynamic = true;
-    private AtomicReference<List<SongLyrics>> songCache = new AtomicReference<>();
+    private AtomicReference<Set<SongLyrics>> songCache = new AtomicReference<>();
 
     @Autowired
     SongFileLoader songDao;
