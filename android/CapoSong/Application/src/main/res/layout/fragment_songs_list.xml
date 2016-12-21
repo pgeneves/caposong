@@ -11,14 +11,15 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="47dp">
+
             <EditText
+                android:id="@+id/searchText"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:inputType="text|textFilter"
                 android:ems="10"
-                android:id="@+id/searchText"
-                android:singleLine="true"
+                android:inputType="text|textFilter"
                 android:selectAllOnFocus="true"
+                android:singleLine="true"
                 android:text="@string/action_search" />
 
             <Spinner
@@ -29,13 +30,20 @@
 
         </GridLayout>
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/GreenBackground"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/lvItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"></ListView>
+            <ListView
+                android:id="@+id/lvItems"
+                style="@style/SongItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"></ListView>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
