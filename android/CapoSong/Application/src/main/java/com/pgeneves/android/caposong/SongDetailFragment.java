@@ -15,7 +15,6 @@ import java.util.List;
  * Created by phil on 18/12/2016.
  */
 public class SongDetailFragment extends Fragment {
-    private String currentSelectedLang = "fr";
     private SongItem item;
     private String langKey;
     private SongDetailItem detailItem;
@@ -57,7 +56,7 @@ public class SongDetailFragment extends Fragment {
                 detailItem = gson.fromJson(result, SongDetailItem.class);
                 refreshView();
             }
-        }).execute("https://caposong.herokuapp.com/song-data/get?id="+item.getId());
+        }).execute("https://caposong.herokuapp.com/song-data/get?id=" + item.getId());
     }
 
     private void refreshView() {
@@ -76,13 +75,16 @@ public class SongDetailFragment extends Fragment {
                 translatedLyrics = translation.getLyrics();
             }
         }
-
+        // First the song lyrics
         StringBuilder sb = new StringBuilder();
-        int i=0;
         for (String sentence : detailItem.getLyrics()) {
             sb.append(sentence).append("\n");
-            if ((translatedLyrics != null) && translatedLyrics.size() < i) {
-                sb.append(translatedLyrics.get(i++)).append("\n");
+        }
+        // If a translation exist, display it after
+        if (translatedLyrics != null) {
+            sb.append("\n\n\n");
+            for (String sentence : translatedLyrics) {
+                sb.append(sentence).append("\n");
             }
         }
         return sb.toString();
