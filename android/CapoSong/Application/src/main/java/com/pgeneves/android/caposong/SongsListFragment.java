@@ -65,7 +65,9 @@ public class SongsListFragment extends Fragment {
         System.out.println("onCreate");
         super.onCreate(savedInstanceState);
         adapterItems = new ArrayAdapter<SongItem>(getActivity(),
-                android.R.layout.simple_list_item_activated_1, songList);
+                R.layout.lits_black_text, R.id.list_content, songList);
+//        adapterItems = new ArrayAdapter<SongItem>(getActivity(),
+//                R.layout.lits_black_text, android.R.layout.simple_list_item_activated_1, songList);
         loadContent();
     }
 
