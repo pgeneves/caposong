@@ -101,22 +101,22 @@ public class SongsListFragment extends Fragment {
             }
         });
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.lang_spinner);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, langsLabel);
-        spinner.setAdapter(spinnerAdapter); // set the adapter to provide layout of rows and content
-        spinner.setSelection(langsKey.indexOf(selectedLangKey));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setLanguage(langsKey.get(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                setDefaultLanguage();
-            }
-        });
+//        Spinner spinner = (Spinner) view.findViewById(R.id.lang_spinner);
+//        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_spinner_item, langsLabel);
+//        spinner.setAdapter(spinnerAdapter); // set the adapter to provide layout of rows and content
+//        spinner.setSelection(langsKey.indexOf(selectedLangKey));
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                setLanguage(langsKey.get(position));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                setDefaultLanguage();
+//            }
+//        });
 
         // Bind adapter to ListView
         lvItems = (ListView) view.findViewById(R.id.lvItems);
@@ -138,7 +138,7 @@ public class SongsListFragment extends Fragment {
         setLanguage(langsKey.get(0));
     }
 
-    private void setLanguage(String langKey) {
+    void setLanguage(String langKey) {
         System.out.println("setLanguage "+langKey);
         selectedLangKey = langKey;
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -162,15 +162,6 @@ public class SongsListFragment extends Fragment {
         return selectedLangKey;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh_action:
-                loadContent();
-                return true;
-        }
-        return false;
-    }
 
     private void refreshListView() {
         songList.clear();
@@ -186,7 +177,7 @@ public class SongsListFragment extends Fragment {
         adapterItems.notifyDataSetChanged();
     }
 
-    private void loadContent() {
+    void loadContent() {
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
             public void handleAsyncResult(String result) {

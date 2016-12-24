@@ -1,14 +1,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"/>
-        <!--android:showAsAction="never"-->
+        android:id="@+id/refresh_action"
+        android:showAsAction="withText"
+        android:title="@string/action_refresh"
+        android:name="@string/action_refresh"/>
 
     <item
-        android:id="@+id/refresh_action"
-        android:orderInCategory="100"
-        android:title="@string/action_refresh"/>
+        android:id="@+id/lang_settings"
+        android:showAsAction="withText"
+        android:title="@string/action_settings"
+        android:name="@string/action_settings">
+        <menu>
+            <item
+                android:id="@+id/lang_fr"
+                android:showAsAction="withText"
+                android:title="@string/lang_fr"
+                android:name="@string/lang_fr"/>
+            <item
+                android:id="@+id/lang_pt"
+                android:showAsAction="withText"
+                android:title="@string/lang_pt"
+                android:name="@string/lang_pt"/>
+            <item
+                android:id="@+id/lang_en"
+                android:showAsAction="withText"
+                android:title="@string/lang_en"
+                android:name="@string/lang_en"/>
+        </menu>
+    </item>
 
 </menu>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/YellowBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,40 +12,89 @@
         android:orientation="vertical">
 
         <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="47dp">
+            style="@style/GreenBackground"
+            android:columnCount="2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:background="@color/yellow"
+                android:layout_height="64dp"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_gravity="top|fill_horizontal"
+                android:scaleType="fitXY"
+                android:src="@drawable/negative"
+                android:id="@+id/imageViewTop" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/songTitle"-->
+                <!--style="@style/SongTitle"-->
+                <!--android:background="@color/yellow"-->
+                <!--android:layout_column="0"-->
+                <!--android:layout_columnSpan="2"-->
+                <!--android:layout_height="47dp"-->
+                <!--android:layout_gravity="top|fill_horizontal"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:text="CAPOSONG"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
+
+            <ListView
+                android:id="@+id/lvItems"
+                android:layout_column="1"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"/>
+
+            <ImageView
+                android:background="@color/yellow"
+                android:layout_width="64dp"
+                android:layout_column="0"
+                android:layout_gravity="left|fill_vertical"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="15dp"
+                android:scaleType="fitEnd"
+                android:src="@drawable/berimbau_side"
+                android:id="@+id/imageView" />
 
             <EditText
                 android:id="@+id/searchText"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_gravity="end|fill_horizontal"
+                android:layout_height="47dp"
                 android:ems="10"
                 android:inputType="text|textFilter"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:text="@string/action_search" />
 
-            <Spinner
-                android:id="@+id/lang_spinner"
-                android:layout_width="202dp"
-                android:layout_height="wrap_content"
-                android:prompt="@string/lang_settings" />
-
         </GridLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/GreenBackground"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+        <!--<GridLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="47dp">-->
 
-            <ListView
-                android:id="@+id/lvItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"></ListView>
-        </LinearLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/searchText"-->
+                <!--android:layout_width="180dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="text|textFilter"-->
+                <!--android:selectAllOnFocus="true"-->
+                <!--android:singleLine="true"-->
+                <!--android:text="@string/action_search" />-->
+
+            <!--&lt;!&ndash;<Spinner&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/lang_spinner"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="202dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:prompt="@string/lang_settings" />&ndash;&gt;-->
+
+        <!--</GridLayout>-->
+
     </LinearLayout>
 
 </RelativeLayout>
