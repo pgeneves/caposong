@@ -97,5 +97,9 @@ public class SongDetailFragment extends Fragment {
                 songLyrics.add(sentence);
             }
         }
+        // Always add up some 10 lines to avoid important text hidden by Pastinha
+        for (int i=0; i<10; i++) {
+            songLyrics.add("");
+        }
     }
 }
