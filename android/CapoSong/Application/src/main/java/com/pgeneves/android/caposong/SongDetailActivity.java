@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by phil on 18/12/2016.
  */
 
-public class SongDetailActivity extends FragmentActivity {
+public class SongDetailActivity extends AppCompatActivity {
     SongDetailFragment fragmentItemDetail;
 
     @Override
@@ -31,5 +32,21 @@ public class SongDetailActivity extends FragmentActivity {
             ft.replace(R.id.flDetailContainer, fragmentItemDetail);
             ft.commit();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.song_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.back_action:
+                onBackPressed();
+                return true;
+        }
+        return false;
     }
 }
