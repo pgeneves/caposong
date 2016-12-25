@@ -5,10 +5,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,12 +22,16 @@ public class SongDetailFragment extends Fragment {
     private String langKey;
     private SongDetailItem detailItem;
     private View view;
+    private List<String> songLyrics = new ArrayList<>();
+    private ArrayAdapter<String> adapterItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = (SongItem) getArguments().getSerializable("item");
         langKey = (String) getArguments().getSerializable("langKey");
+        adapterItems = new ArrayAdapter<String>(getActivity(),
+                R.layout.lyrics_item, R.id.lyrics_content, songLyrics);
     }
 
     @Override
@@ -32,13 +39,14 @@ public class SongDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_song_detail,
                 container, false);
+        // Bind adapter to ListView
+        ListView listView = (ListView) view.findViewById(R.id.SongLyrics);
+        listView.setAdapter(adapterItems);
         // Invoke async load content
         loadContent();
-        //
         return view;
     }
 
-    // SongDetailFragment.newInstance(item)
     public static SongDetailFragment newInstance(SongItem item, String langKey) {
         SongDetailFragment fragmentDemo = new SongDetailFragment();
         Bundle args = new Bundle();
@@ -61,13 +69,14 @@ public class SongDetailFragment extends Fragment {
 
     private void refreshView() {
         TextView songTitle = (TextView) view.findViewById(R.id.songTitle);
-        TextView songLyrics = (TextView) view.findViewById(R.id.songLyrics);
         songTitle.setText(detailItem.getName());
-        songLyrics.setText(prepareText());
+        populateLyrics();
+        adapterItems.notifyDataSetChanged();
         view.requestLayout();
     }
 
-    private String prepareText() {
+    private void populateLyrics() {
+        songLyrics.clear();
         // Search for a potential translation
         List<String> translatedLyrics = null;
         for (SongTranslate translation : detailItem.getTranslate()) {
@@ -76,17 +85,17 @@ public class SongDetailFragment extends Fragment {
             }
         }
         // First the song lyrics
-        StringBuilder sb = new StringBuilder();
         for (String sentence : detailItem.getLyrics()) {
-            sb.append(sentence).append("\n");
+            songLyrics.add(sentence);
         }
         // If a translation exist, display it after
         if (translatedLyrics != null) {
-            sb.append("\n\n\n");
+            songLyrics.add("");
+            songLyrics.add("");
+            songLyrics.add("");
             for (String sentence : translatedLyrics) {
-                sb.append(sentence).append("\n");
+                songLyrics.add(sentence);
             }
         }
-        return sb.toString();
     }
 }

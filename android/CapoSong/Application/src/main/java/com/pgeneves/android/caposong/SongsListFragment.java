@@ -7,17 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -65,9 +61,7 @@ public class SongsListFragment extends Fragment {
         System.out.println("onCreate");
         super.onCreate(savedInstanceState);
         adapterItems = new ArrayAdapter<SongItem>(getActivity(),
-                R.layout.lits_black_text, R.id.list_content, songList);
-//        adapterItems = new ArrayAdapter<SongItem>(getActivity(),
-//                R.layout.lits_black_text, android.R.layout.simple_list_item_activated_1, songList);
+                R.layout.list_item, R.id.list_content, songList);
         loadContent();
     }
 
@@ -100,23 +94,6 @@ public class SongsListFragment extends Fragment {
                 refreshListView();
             }
         });
-
-//        Spinner spinner = (Spinner) view.findViewById(R.id.lang_spinner);
-//        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_spinner_item, langsLabel);
-//        spinner.setAdapter(spinnerAdapter); // set the adapter to provide layout of rows and content
-//        spinner.setSelection(langsKey.indexOf(selectedLangKey));
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                setLanguage(langsKey.get(position));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                setDefaultLanguage();
-//            }
-//        });
 
         // Bind adapter to ListView
         lvItems = (ListView) view.findViewById(R.id.lvItems);

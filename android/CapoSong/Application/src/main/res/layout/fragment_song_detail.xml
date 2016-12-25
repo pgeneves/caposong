@@ -1,40 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/GreenBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/YellowBackground"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/songTitle"
-        style="@style/SongTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="false"
-        android:text="Song Title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ScrollView
+    <GridLayout
+        style="@style/GreenBackground"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_below="@+id/songTitle"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:fillViewport="true">
+        android:layout_height="fill_parent"
+        android:columnCount="1">
+
+        <!--<ImageView-->
+            <!--android:id="@+id/imageViewTopDetail"-->
+            <!--android:layout_height="64dp"-->
+            <!--android:layout_column="0"-->
+            <!--android:layout_columnSpan="2"-->
+            <!--android:layout_gravity="top|fill_horizontal"-->
+            <!--android:background="@color/yellow"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@drawable/negative" />-->
 
         <TextView
-            android:id="@+id/songLyrics"
-            style="@style/SongLyrics"
+            android:id="@+id/songTitle"
+            style="@style/SongTitle"
+            android:gravity="top|center_horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:lines="100"
-            android:scrollHorizontally="false"
-            android:scrollbars="vertical"/>
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:text="Song Title"
+            android:fontFamily="cursive"
+            android:textStyle="normal|bold"/>
 
-    </ScrollView>
+        <ListView
+            android:id="@+id/SongLyrics"
+            android:layout_column="0"
+            android:layout_gravity="fill"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp" />
 
+    </GridLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/transparentBlack"
+        android:layout_width="127dp"
+        android:layout_height="179dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+        <!---->
+
+        <ImageView
+            android:id="@+id/imageViewDetail"
+            android:layout_width="127dp"
+            android:layout_height="179dp"
+            android:layout_column="1"
+            android:layout_gravity="right|end"
+            android:scaleType="fitEnd"
+            android:background="@color/transparentBlack"
+            android:src="@drawable/pastinha" />
+
+    </RelativeLayout>
 </RelativeLayout>

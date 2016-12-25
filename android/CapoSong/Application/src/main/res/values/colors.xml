@@ -4,4 +4,5 @@
     <color name="yellow">#EEDD00 </color>
     <color name="list">#000000 </color>
     <color name="text">#008800 </color>
+    <color name="transparentBlack">#DD000000 </color>
 </resources>

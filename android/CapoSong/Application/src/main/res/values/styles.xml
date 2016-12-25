@@ -38,7 +38,7 @@
         <item name="android:background">@color/list</item>
     </style>
     <style name="SongTitle" parent="@style/AppTheme">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:background">@color/list</item>
     </style>
