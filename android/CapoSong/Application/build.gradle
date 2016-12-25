@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId "com.pgeneves.android.caposong"
-        minSdkVersion 8
+        minSdkVersion 14
         targetSdkVersion 24
     }
 

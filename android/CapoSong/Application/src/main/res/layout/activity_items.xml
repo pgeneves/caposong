@@ -14,7 +14,7 @@
         android:id="@+id/SongsListFragment"
         android:name="com.pgeneves.android.caposong.SongsListFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
