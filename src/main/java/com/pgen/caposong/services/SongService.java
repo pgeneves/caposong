@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service("songService")
 public class SongService implements ISongService {
+    // No here to stay, for dev wip
     private final boolean dynamic = true;
     private AtomicReference<Set<SongLyrics>> songCache = new AtomicReference<>();
 

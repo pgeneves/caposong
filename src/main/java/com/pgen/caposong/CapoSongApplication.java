@@ -23,6 +23,10 @@ public class CapoSongApplication extends WebMvcConfigurerAdapter {
         SpringApplication.run(CapoSongApplication.class, args);
     }
 
+    /**
+     * Special resource handler to get files from the src directory
+     * Avoid restart of application while dev
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
@@ -35,10 +39,8 @@ public class CapoSongApplication extends WebMvcConfigurerAdapter {
     public HttpMessageConverters customConverters() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new ISO8601DateFormat());
-
         MappingJackson2HttpMessageConverter jackson = new MappingJackson2HttpMessageConverter();
         jackson.setObjectMapper(objectMapper);
-
         return new HttpMessageConverters(jackson);
     }
 
