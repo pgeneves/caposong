@@ -4,4 +4,9 @@
         android:showAsAction="always|ifRoom|withText"
         android:title="@string/action_back"
         android:name="@string/action_back"/>
+    <item
+        android:id="@+id/play_action"
+        android:showAsAction="always|ifRoom|withText"
+        android:title="@string/action_play"
+        android:name="@string/action_play"/>
 </menu>

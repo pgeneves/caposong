@@ -3,6 +3,6 @@
     <color name="background">#000000 </color>
     <color name="yellow">#EEDD00 </color>
     <color name="list">#000000 </color>
-    <color name="text">#008800 </color>
+    <color name="text">#DDDDDD </color>
     <color name="transparentBlack">#00000000 </color>
 </resources>

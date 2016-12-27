@@ -1,5 +1,6 @@
 package com.pgeneves.android.caposong;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class SongDetailActivity extends AppCompatActivity {
     SongDetailFragment fragmentItemDetail;
+    MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class SongDetailActivity extends AppCompatActivity {
             ft.replace(R.id.flDetailContainer, fragmentItemDetail);
             ft.commit();
         }
+        mPlayer = MediaPlayer.create(this, R.raw.jogodedentro);
+        mPlayer.start();
     }
 
     @Override
@@ -48,5 +52,12 @@ public class SongDetailActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    public void onDestroy() {
+
+        mPlayer.stop();
+        super.onDestroy();
+
     }
 }
