@@ -1,16 +1,19 @@
 package com.pgeneves.android.caposong;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,8 @@ import java.util.List;
  * Created by phil on 18/12/2016.
  */
 public class SongDetailFragment extends Fragment {
+    private MediaPlayer mPlayer;
+    private boolean isPlaying = false;
     private SongItem item;
     private String langKey;
     private SongDetailItem detailItem;
@@ -39,12 +44,27 @@ public class SongDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_song_detail,
                 container, false);
+        // Add listener on button click
+        Button buttonView = (Button) view.findViewById(R.id.button);
+        buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleSongPlayer();
+            }
+        });
+
         // Bind adapter to ListView
         ListView listView = (ListView) view.findViewById(R.id.SongLyrics);
         listView.setAdapter(adapterItems);
         // Invoke async load content
         loadContent();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        disposeMediaPlayer();
+        super.onDestroyView();
     }
 
     public static SongDetailFragment newInstance(SongItem item, String langKey) {
@@ -54,6 +74,45 @@ public class SongDetailFragment extends Fragment {
         args.putSerializable("langKey", langKey);
         fragmentDemo.setArguments(args);
         return fragmentDemo;
+    }
+
+    private void toggleSongPlayer() {
+        if (isPlaying) {
+            mPlayer.stop();
+            isPlaying=false;
+        } else {
+            launchMediaPlayer();
+        }
+    }
+
+    private void launchMediaPlayer() {
+        try {
+            if (mPlayer == null) {
+                // factory method already serve a prepared player
+                mPlayer = MediaPlayer.create(this.getActivity(), R.raw.jogodedentro);
+            } else {
+                // But once it has been stopped, we need to prepare again
+                mPlayer.prepare();
+            }
+            mPlayer.setLooping(true);
+            mPlayer.start();
+            isPlaying = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            disposeMediaPlayer();
+        }
+    }
+
+    private void disposeMediaPlayer() {
+        if (mPlayer != null) {
+            try {
+                mPlayer.stop();
+                mPlayer.release();
+            } finally {
+                mPlayer = null;
+                isPlaying = false;
+            }
+        }
     }
 
     private void loadContent() {

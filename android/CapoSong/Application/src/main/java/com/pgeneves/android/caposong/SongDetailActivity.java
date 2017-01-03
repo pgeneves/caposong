@@ -20,7 +20,6 @@ import java.util.List;
 
 public class SongDetailActivity extends AppCompatActivity {
     SongDetailFragment fragmentItemDetail;
-    MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +33,6 @@ public class SongDetailActivity extends AppCompatActivity {
             ft.replace(R.id.flDetailContainer, fragmentItemDetail);
             ft.commit();
         }
-        mPlayer = MediaPlayer.create(this, R.raw.jogodedentro);
-        mPlayer.start();
     }
 
     @Override
@@ -56,7 +53,6 @@ public class SongDetailActivity extends AppCompatActivity {
 
     public void onDestroy() {
 
-        mPlayer.stop();
         super.onDestroy();
 
     }
