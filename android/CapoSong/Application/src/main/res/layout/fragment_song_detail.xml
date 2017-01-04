@@ -70,14 +70,17 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="64dp" >
         <!---->
 
-        <Button
-            android:text=">"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button" />
+        <ImageButton
+            android:background="@color/transparentBlack"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:id="@+id/button"
+            android:src="@drawable/player" />
     </RelativeLayout>
 
 </RelativeLayout>

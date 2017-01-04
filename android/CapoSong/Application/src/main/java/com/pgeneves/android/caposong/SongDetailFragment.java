@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class SongDetailFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_song_detail,
                 container, false);
         // Add listener on button click
-        Button buttonView = (Button) view.findViewById(R.id.button);
+        ImageButton buttonView = (ImageButton) view.findViewById(R.id.button);
         buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
