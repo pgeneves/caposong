@@ -7,20 +7,20 @@ import java.io.Serializable;
  */
 
 public class SongItem implements Serializable {
-    private int id;
+    private String uid;
     private String name;
 
-    public SongItem(int id, String title) {
-        this.id = id;
+    public SongItem(String uid, String title) {
+        this.uid = uid;
         this.name = title;
     }
 
-    public int getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -38,16 +38,13 @@ public class SongItem implements Serializable {
 
         SongItem songItem = (SongItem) o;
 
-        if (id != songItem.id) return false;
-        return name != null ? name.equals(songItem.name) : songItem.name == null;
+        return uid != null ? uid.equals(songItem.uid) : songItem.uid == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return uid != null ? uid.hashCode() : 0;
     }
 
     @Override

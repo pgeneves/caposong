@@ -124,7 +124,7 @@ public class SongDetailFragment extends Fragment {
                 detailItem = gson.fromJson(result, SongDetailItem.class);
                 refreshView();
             }
-        }).execute("https://caposong.herokuapp.com/song-data/get?id=" + item.getId());
+        }).execute("https://caposong.herokuapp.com/song-data/get?uid=" + item.getUid());
     }
 
     private void refreshView() {
