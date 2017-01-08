@@ -13,7 +13,7 @@
     <br>
     <div ng-repeat="song in $ctrl.songs | filter:$ctrl.query | orderBy:$ctrl.orderProp">
         <div class="col-xs-12">
-            <a href="#!/songs/{{song.id}}"><h4>{{song.name}}</h4></a>
+            <a href="#!/songs/{{song.uid}}"><h4>{{song.name}}</h4></a>
         </div>
     </div>
 </div>

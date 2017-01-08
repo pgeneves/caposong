@@ -9,7 +9,7 @@ app.config(['$locationProvider' ,'$routeProvider',
         when('/songs', {
           template: '<song-list></song-list>'
         }).
-        when('/songs/:songId', {
+        when('/songs/:songUid', {
           template: '<ng-outlet><song-detail $router="$$router"></song-detail></ng-outlet>'
         }).
         otherwise('/songs');

@@ -26,7 +26,7 @@ public class CapoSongController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public SongLyrics getUser(@RequestParam(value="id") int id) {
-        return songService.getSong(id);
+    public SongLyrics getUser(@RequestParam(value="uid") String uid) {
+        return songService.getSong(uid);
     }
 }

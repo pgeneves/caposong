@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service("songService")
 public class SongService implements ISongService {
-    // No here to stay, for dev wip
+    // Not here to stay, for dev wip
     private final boolean dynamic = true;
     private AtomicReference<Set<SongLyrics>> songCache = new AtomicReference<>();
 
@@ -35,10 +35,10 @@ public class SongService implements ISongService {
     }
 
     @Override
-    public SongLyrics getSong(int songId) {
+    public SongLyrics getSong(String songUid) {
         ensureSongCache();
         for (SongLyrics song : songCache.get()) {
-            if (song.getSongItem().getId() == songId) {
+            if (song.getSongItem().getUid().equals(songUid)) {
                 return song;
             }
         }

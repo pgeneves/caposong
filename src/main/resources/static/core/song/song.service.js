@@ -33,9 +33,9 @@ function Song_service($http, $q, $timeout) {
         return this.songList.promise;
     };
 
-    this.getSongLyricsPromise = function(songId) {
+    this.getSongLyricsPromise = function(songUid) {
         var deferred = this.$q.defer();
-        this.$http.get("/song-data/get?id="+songId)
+        this.$http.get("/song-data/get?uid="+songUid)
          .then(function(response) {
             console.debug("Got song lyrics data");
             console.debug(response.data);

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Song {
-    private int id;
+    private String uid;
     private String name;
 
     @JsonCreator
@@ -14,16 +14,16 @@ public class Song {
         this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setName(String name) {
@@ -37,11 +37,12 @@ public class Song {
 
         Song song = (Song) o;
 
-        return id == song.id;
+        return !(uid != null ? !uid.equals(song.uid) : song.uid != null);
+
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return uid != null ? uid.hashCode() : 0;
     }
 }

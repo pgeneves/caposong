@@ -10,7 +10,7 @@ angular.
         this.langService = Lang;
 
         this.reloadData = function() {
-          Song.getSongLyricsPromise($routeParams.songId).then(function(data) {
+          Song.getSongLyricsPromise($routeParams.songUid).then(function(data) {
             this.song = data;
             this.refreshData();
           }.bind(this))
