@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Song {
     private String uid;
     private String name;
+    private String music;
 
     @JsonCreator
     public Song(@JsonProperty("title") String name) {
@@ -28,6 +29,14 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
     }
 
     @Override

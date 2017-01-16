@@ -37,17 +37,31 @@ public class SongService implements ISongService {
     @Override
     public SongLyrics getSong(String songUid) {
         ensureSongCache();
-        for (SongLyrics song : songCache.get()) {
-            if (song.getSongItem().getUid().equals(songUid)) {
-                return song;
-            }
+        return findSong(songUid);
+    }
+
+    @Override
+    public String getSongMusicPath(String songUid) {
+        // TODO refactor to make it cleaner
+        SongLyrics songLyrics = findSong(songUid);
+        if ((songLyrics != null) &&songLyrics.getSongItem().getMusic() != null) {
+            return songLyrics.getSongItem().getMusic();
         }
-        return null;
+        return "";
     }
 
     private void ensureSongCache() {
         if ((dynamic) || songCache.get() == null) {
             songCache.set(songDao.loadAllSongs());
         }
+    }
+
+    private SongLyrics findSong(String songUid) {
+        for (SongLyrics song : songCache.get()) {
+            if (song.getSongItem().getUid().equals(songUid)) {
+                return song;
+            }
+        }
+        return null;
     }
 }

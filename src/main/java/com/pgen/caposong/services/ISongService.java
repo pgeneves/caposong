@@ -10,4 +10,5 @@ public interface ISongService {
 
     SongLyrics getSong(String songUid);
 
+    String getSongMusicPath(String songUid);
 }

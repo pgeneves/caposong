@@ -29,6 +29,11 @@ public class CapoSongApplication extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Resource handler to download music resources
+        registry.addResourceHandler("/song_music/**")
+                .addResourceLocations("file:song_data/music/")
+                .setCachePeriod(0);
+        // Resource handler to reload web content from sources at dev time
         registry.addResourceHandler("/**")
                 .addResourceLocations("file:src/main/resources/static/")
                 .setCachePeriod(0);

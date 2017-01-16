@@ -21,12 +21,12 @@ public class CapoSongController {
     SongService songService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Song> listAllUsers() {
+    public List<Song> listAllSongs() {
         return songService.getSongs();
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public SongLyrics getUser(@RequestParam(value="uid") String uid) {
+    public SongLyrics getSongLyrics(@RequestParam(value = "uid") String uid) {
         return songService.getSong(uid);
     }
 }
