@@ -21,6 +21,7 @@ dependencies {
     compile "com.android.support:cardview-v7:24.1.1"
     compile "com.android.support:appcompat-v7:24.1.1"
     compile "com.google.code.gson:gson:2.7"
+    compile "commons-io:commons-io:2.5"
 }
 
 // The sample build uses multiple directories to

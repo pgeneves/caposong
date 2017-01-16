@@ -10,12 +10,14 @@ import java.util.List;
 public class SongDetailItem implements Serializable {
     private int id;
     private String name;
+    private String music;
     private List<String> lyrics;
     private List<SongTranslate> translate;
 
-    public SongDetailItem(int id, String title) {
+    public SongDetailItem(int id, String title, String music) {
         this.id = id;
         this.name = title;
+        this.music = music;
     }
 
     public int getId() {
@@ -32,6 +34,14 @@ public class SongDetailItem implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
     }
 
     public List<String> getLyrics() {

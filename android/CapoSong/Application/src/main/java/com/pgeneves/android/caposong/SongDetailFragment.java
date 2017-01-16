@@ -1,6 +1,7 @@
 package com.pgeneves.android.caposong;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class SongDetailFragment extends Fragment {
     private boolean isPlaying = false;
     private SongItem item;
     private String langKey;
+    private String musicPath;
     private SongDetailItem detailItem;
     private View view;
     private List<String> songLyrics = new ArrayList<>();
@@ -87,10 +89,15 @@ public class SongDetailFragment extends Fragment {
     }
 
     private void launchMediaPlayer() {
+        if (musicPath == null) {
+            return;
+        }
         try {
             if (mPlayer == null) {
                 // factory method already serve a prepared player
-                mPlayer = MediaPlayer.create(this.getActivity(), R.raw.jogodedentro);
+                Uri mediaUri = Uri.parse(getContext().getCacheDir().getPath()+ "/"+musicPath);
+                mPlayer = MediaPlayer.create(this.getActivity(), mediaUri);
+//                mPlayer = MediaPlayer.create(this.getActivity(), R.raw.jogodedentro);
             } else {
                 // But once it has been stopped, we need to prepare again
                 mPlayer.prepare();
@@ -122,9 +129,26 @@ public class SongDetailFragment extends Fragment {
             public void handleAsyncResult(String result) {
                 Gson gson = new Gson();
                 detailItem = gson.fromJson(result, SongDetailItem.class);
+                backgroundLoadMusic();
                 refreshView();
             }
         }).execute("https://caposong.herokuapp.com/song-data/get?uid=" + item.getUid());
+    }
+
+    private void backgroundLoadMusic() {
+        if (detailItem.getMusic() != null && detailItem.getMusic().length() > 0) {
+            new DownloadFileTask(this.getContext(), new IAsyncResourceHandler() {
+                @Override
+                public void handleAsyncResult(String result) {
+                    if ("true".equalsIgnoreCase(result)) {
+                        musicPath = detailItem.getMusic();
+                    } else {
+                        musicPath = null;
+                    }
+                }
+            }).execute("https://caposong.herokuapp.com/song-music/" + detailItem.getMusic(),
+                    detailItem.getMusic());
+        }
     }
 
     private void refreshView() {

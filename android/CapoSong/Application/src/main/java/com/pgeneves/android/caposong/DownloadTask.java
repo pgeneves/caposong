@@ -1,8 +1,12 @@
 package com.pgeneves.android.caposong;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +29,7 @@ class DownloadTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
         try {
-            return loadFromNetwork(urls[0]);
+            return loadStringFromNetwork(urls[0]);
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -40,11 +44,9 @@ class DownloadTask extends AsyncTask<String, Void, String> {
         resultHandler.handleAsyncResult(result);
     }
 
-    /** Initiates the fetch operation. */
-    private String loadFromNetwork(String urlString) throws IOException {
+    private String loadStringFromNetwork(String urlString) throws IOException {
         InputStream stream = null;
         String str ="";
-
         try {
             stream = downloadUrl(urlString);
             str = readIt(stream, 500);
@@ -54,6 +56,35 @@ class DownloadTask extends AsyncTask<String, Void, String> {
             }
         }
         return str;
+    }
+
+    private boolean loadFileFromNetwork(Context context, String urlString, String savePath) throws IOException {
+        InputStream stream = null;
+        try {
+            stream = downloadUrl(urlString);
+            try {
+                FileOutputStream outputStream=null;
+                try {
+                    outputStream = context.openFileOutput(savePath, Context.MODE_PRIVATE);
+                    IOUtils.copy(stream, outputStream);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return false;
+                } finally {
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
+        return true;
     }
 
     /**
