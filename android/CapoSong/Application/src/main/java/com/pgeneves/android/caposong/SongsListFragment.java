@@ -32,6 +32,7 @@ public class SongsListFragment extends Fragment {
     List<String> langsLabel = Arrays.asList("Français","Portuguêse","English");
     List<String> langsKey = Arrays.asList("fr","pt","en");
 
+    private LocalStorageHandler localStorageHandler;
     private List<SongItem> songList = new ArrayList<>();
     private ArrayAdapter<SongItem> adapterItems;
     private ListView lvItems;
@@ -62,6 +63,9 @@ public class SongsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         adapterItems = new ArrayAdapter<SongItem>(getActivity(),
                 R.layout.list_item, R.id.list_content, songList);
+        //
+        localStorageHandler = new LocalStorageHandler(this.getActivity().getFilesDir());
+        //
         loadContent();
     }
 
@@ -155,15 +159,32 @@ public class SongsListFragment extends Fragment {
     }
 
     void loadContent() {
+        songList.clear();
+        // Load from the local storage in case of network access slowness
+        String localCatalog = localStorageHandler.readLocalSongCatalog();
+        if (localCatalog != null) {
+            try {
+                loadedSongs = parseSongCatalog(localCatalog);
+            } catch (Exception ex) {
+                loadedSongs = new SongItem[0];
+                ex.printStackTrace();
+                System.out.println("Error while parsing JSON " + localCatalog);
+            }
+        }
+        // Use a first view refresh with local catalog or empty
+        refreshListView();
+
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
             public void handleAsyncResult(String result) {
-                songList.clear();
                 try {
-                    Gson gson = new Gson();
-                    loadedSongs = gson.fromJson(result, SongItem[].class);
+                    // Update view only on success
+                    loadedSongs = parseSongCatalog(result);
+                    refreshListView();
+                    // And then store result to local storage
+                    localStorageHandler.writeLocalSongCatalog(result);
                 } catch(Exception ex) {
-                    loadedSongs = new SongItem[0];
+//                    loadedSongs = new SongItem[0];
                     ex.printStackTrace();
                     System.out.println("Error while parsing JSON "+result);
                     // Schedule a reload
@@ -176,9 +197,13 @@ public class SongsListFragment extends Fragment {
                         }
                     }, 10, TimeUnit.SECONDS);
                 }
-                refreshListView();
             }
         }).execute("https://caposong.herokuapp.com/song-data/list");
+    }
+
+    private SongItem[] parseSongCatalog(String jsonCatalog) throws Exception {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonCatalog, SongItem[].class);
     }
 
     /**

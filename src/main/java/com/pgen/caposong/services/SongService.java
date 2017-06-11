@@ -44,7 +44,7 @@ public class SongService implements ISongService {
     public String getSongMusicPath(String songUid) {
         // TODO refactor to make it cleaner
         SongLyrics songLyrics = findSong(songUid);
-        if ((songLyrics != null) &&songLyrics.getSongItem().getMusic() != null) {
+        if ((songLyrics != null) && songLyrics.getSongItem().getMusic() != null) {
             return songLyrics.getSongItem().getMusic();
         }
         return "";
