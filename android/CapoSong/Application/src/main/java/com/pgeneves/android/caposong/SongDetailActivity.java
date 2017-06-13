@@ -52,8 +52,6 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     public void onDestroy() {
-
         super.onDestroy();
-
     }
 }

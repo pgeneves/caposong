@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import java.util.List;
  * Created by phil on 18/12/2016.
  */
 public class SongDetailFragment extends Fragment {
+    private LocalStorageHandler localStorageHandler;
     private MediaPlayer mPlayer;
     private boolean isPlaying = false;
     private SongItem item;
@@ -40,6 +40,9 @@ public class SongDetailFragment extends Fragment {
         langKey = (String) getArguments().getSerializable("langKey");
         adapterItems = new ArrayAdapter<String>(getActivity(),
                 R.layout.lyrics_item, R.id.lyrics_content, songLyrics);
+        //
+        localStorageHandler = new LocalStorageHandler(this.getActivity().getFilesDir());
+        //
     }
 
     @Override
@@ -124,15 +127,41 @@ public class SongDetailFragment extends Fragment {
     }
 
     private void loadContent() {
+        detailItem = new SongDetailItem(0, "error", null);
+        // Load from the local storage in case of network access slowness
+        String localContent = localStorageHandler.readLocalSongContent(item.getUid());
+        if (localContent != null) {
+            try {
+                detailItem = parseSongDetails(localContent);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("Error while parsing JSON " + localContent);
+            }
+        }
+        // Use a first view refresh with local content or empty
+        refreshView();
+
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
             public void handleAsyncResult(String result) {
-                Gson gson = new Gson();
-                detailItem = gson.fromJson(result, SongDetailItem.class);
-                backgroundLoadMusic();
+                try {
+                    detailItem =  parseSongDetails(result);
+                    // On success store into local content
+                    localStorageHandler.writeLocalSongContent(result, item.getUid());
+                    backgroundLoadMusic();
+                } catch (Exception ex) {
+                    // No re-scheduling of load because it is worthless; Will try again on next acess
+                    ex.printStackTrace();
+                    System.out.println("Error while parsing JSON " + result);
+                }
                 refreshView();
             }
         }).execute("https://caposong.herokuapp.com/song-data/get?uid=" + item.getUid());
+    }
+
+    private SongDetailItem parseSongDetails(String jsonContent) throws Exception {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonContent, SongDetailItem.class);
     }
 
     private void backgroundLoadMusic() {

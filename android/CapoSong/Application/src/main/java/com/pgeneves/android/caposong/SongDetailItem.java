@@ -1,6 +1,7 @@
 package com.pgeneves.android.caposong;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,8 @@ public class SongDetailItem implements Serializable {
         this.id = id;
         this.name = title;
         this.music = music;
+        this.lyrics = new ArrayList<>(0);
+        this.translate = new ArrayList<>(0);
     }
 
     public int getId() {

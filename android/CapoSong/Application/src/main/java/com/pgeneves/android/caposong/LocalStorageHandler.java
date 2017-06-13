@@ -16,9 +16,25 @@ public class LocalStorageHandler {
         this.internalStorageDir = internalStorageDir;
     }
 
+    public String readLocalSongContent(String songUid) {
+        return readLocalFile("song_"+songUid+".json");
+    }
+
+    public void writeLocalSongContent(String songContent, String songUid) {
+        writeLocalFile(songContent, "song_"+songUid+".json");
+    }
+
     public String readLocalSongCatalog() {
+        return readLocalFile("song_catalog.json");
+    }
+
+    public void writeLocalSongCatalog(String songCatalog) {
+        writeLocalFile(songCatalog, "song_catalog.json");
+    }
+
+    private String readLocalFile(String filename) {
         if (isExternalStorageReadable()) {
-            File file = new File(internalStorageDir, "song_catalog.json");
+            File file = new File(internalStorageDir, filename);
             if (file.canRead()) {
                 FileInputStream fis = null;
                 try {
@@ -41,13 +57,13 @@ public class LocalStorageHandler {
         return null;
     }
 
-    public void writeLocalSongCatalog(String songCatalog) {
+    private void writeLocalFile(String data, String filename) {
         if (isExternalStorageWritable()) {
-            File file = new File(internalStorageDir, "song_catalog.json");
+            File file = new File(internalStorageDir, filename);
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(file, false);
-                IOUtils.write(songCatalog, fos, "utf-8");
+                IOUtils.write(data, fos, "utf-8");
                 fos.flush();
             } catch(IOException e) {
                 // No consequences
