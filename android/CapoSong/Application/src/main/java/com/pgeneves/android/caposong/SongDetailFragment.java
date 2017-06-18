@@ -137,6 +137,13 @@ public class SongDetailFragment extends Fragment {
                 ex.printStackTrace();
                 System.out.println("Error while parsing JSON " + localContent);
             }
+            // Initialize music from local storage if present
+            if (localStorageHandler.isLocalSongAudioAvailable(item.getUid())) {
+                // TODO Add a way to invalidate a local storage
+                musicPath = detailItem.getMusic();
+            } else {
+                musicPath = null;
+            }
         }
         // Use a first view refresh with local content or empty
         refreshView();
@@ -148,6 +155,7 @@ public class SongDetailFragment extends Fragment {
                     detailItem =  parseSongDetails(result);
                     // On success store into local content
                     localStorageHandler.writeLocalSongContent(result, item.getUid());
+                    // Download the file if it was not present
                     backgroundLoadMusic();
                 } catch (Exception ex) {
                     // No re-scheduling of load because it is worthless; Will try again on next acess
@@ -166,10 +174,8 @@ public class SongDetailFragment extends Fragment {
 
     private void backgroundLoadMusic() {
         if (detailItem.getMusic() != null && detailItem.getMusic().length() > 0) {
-            if (localStorageHandler.isLocalSongAudioAvailable(item.getUid())) {
-                // TODO Add a way to invalidate a local storage
-                musicPath = detailItem.getMusic();
-            } else {
+            // TODO Add a way to invalidate a local storage
+            if (!localStorageHandler.isLocalSongAudioAvailable(item.getUid())) {
                 new DownloadFileTask(this.localStorageHandler, new IAsyncResourceHandler() {
                     @Override
                     public void handleAsyncResult(String result) {
