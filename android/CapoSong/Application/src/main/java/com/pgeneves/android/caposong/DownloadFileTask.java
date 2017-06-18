@@ -19,11 +19,11 @@ import java.net.URL;
  * the UI thread.
  */
 class DownloadFileTask extends AsyncTask<String, Void, Boolean> {
-
-    private Context context;
+    private LocalStorageHandler localStorageHandler;
     private IAsyncResourceHandler resultHandler;
 
-    public DownloadFileTask(Context context, IAsyncResourceHandler resultHandler) {
+    public DownloadFileTask(LocalStorageHandler localStorageHandler, IAsyncResourceHandler resultHandler) {
+        this.localStorageHandler = localStorageHandler;
         this.resultHandler = resultHandler;
     }
 
@@ -41,26 +41,11 @@ class DownloadFileTask extends AsyncTask<String, Void, Boolean> {
         resultHandler.handleAsyncResult(result.toString());
     }
 
-    private boolean loadFileFromNetwork(String urlString, String savePath) {
+    private boolean loadFileFromNetwork(String urlString, String songUid) {
         InputStream stream = null;
         try {
             stream = downloadUrl(urlString);
-            FileOutputStream outputStream=null;
-            try {
-                outputStream = context.openFileOutput(savePath, Context.MODE_PRIVATE);
-                IOUtils.copy(stream, outputStream);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return false;
-            } finally {
-                if (outputStream != null) {
-                    try {
-                        outputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            localStorageHandler.writeLocalSongAudio(stream, songUid);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

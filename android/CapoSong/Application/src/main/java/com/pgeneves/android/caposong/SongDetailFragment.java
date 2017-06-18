@@ -98,7 +98,7 @@ public class SongDetailFragment extends Fragment {
         try {
             if (mPlayer == null) {
                 // factory method already serve a prepared player
-                Uri mediaUri = Uri.parse(getContext().getCacheDir().getPath()+ "/"+musicPath);
+                Uri mediaUri = Uri.parse(localStorageHandler.getSongAudioPath(item.getUid()));
                 mPlayer = MediaPlayer.create(this.getActivity(), mediaUri);
 //                mPlayer = MediaPlayer.create(this.getActivity(), R.raw.jogodedentro);
             } else {
@@ -166,17 +166,22 @@ public class SongDetailFragment extends Fragment {
 
     private void backgroundLoadMusic() {
         if (detailItem.getMusic() != null && detailItem.getMusic().length() > 0) {
-            new DownloadFileTask(this.getContext(), new IAsyncResourceHandler() {
-                @Override
-                public void handleAsyncResult(String result) {
-                    if ("true".equalsIgnoreCase(result)) {
-                        musicPath = detailItem.getMusic();
-                    } else {
-                        musicPath = null;
+            if (localStorageHandler.isLocalSongAudioAvailable(item.getUid())) {
+                // TODO Add a way to invalidate a local storage
+                musicPath = detailItem.getMusic();
+            } else {
+                new DownloadFileTask(this.localStorageHandler, new IAsyncResourceHandler() {
+                    @Override
+                    public void handleAsyncResult(String result) {
+                        if ("true".equalsIgnoreCase(result)) {
+                            musicPath = detailItem.getMusic();
+                        } else {
+                            musicPath = null;
+                        }
                     }
-                }
-            }).execute("https://caposong.herokuapp.com/song-music/" + detailItem.getMusic(),
-                    detailItem.getMusic());
+                }).execute("https://caposong.herokuapp.com/song_music/" + detailItem.getMusic(),
+                        item.getUid());
+            }
         }
     }
 
