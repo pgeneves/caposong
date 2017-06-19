@@ -39,6 +39,7 @@ public class SongsListFragment extends Fragment {
     private String selectedLangKey;
     private String filterText="";
     private SongItem[] loadedSongs = new SongItem[0];
+    private int loadRetry = 0;
 
     private OnItemSelectedListener listener;
 
@@ -143,7 +144,6 @@ public class SongsListFragment extends Fragment {
         return selectedLangKey;
     }
 
-
     private void refreshListView() {
         songList.clear();
         for (SongItem itm : loadedSongs) {
@@ -159,43 +159,63 @@ public class SongsListFragment extends Fragment {
     }
 
     void loadContent() {
+        // Initialise with an empty model
         songList.clear();
+        loadedSongs = new SongItem[0];
+        // Load from local storage
+        loadLocalContent();
+        // Use a first view refresh with local catalog or empty
+        refreshListView();
+        // And schedule a network load
+        loadRemoteContent();
+    }
+
+    private void loadLocalContent() {
         // Load from the local storage in case of network access slowness
         String localCatalog = localStorageHandler.readLocalSongCatalog();
         if (localCatalog != null) {
             try {
                 loadedSongs = parseSongCatalog(localCatalog);
             } catch (Exception ex) {
-                loadedSongs = new SongItem[0];
                 ex.printStackTrace();
                 System.out.println("Error while parsing JSON " + localCatalog);
             }
         }
-        // Use a first view refresh with local catalog or empty
-        refreshListView();
+    }
 
+    private void loadRemoteContent() {
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
             public void handleAsyncResult(String result) {
-                try {
-                    // Update view only on success
-                    loadedSongs = parseSongCatalog(result);
+                boolean loaded = false;
+                if ((result != null) && result.trim().length() > 0) {
+                    try {
+                        // Update view only on success
+                        loadedSongs = parseSongCatalog(result);
+                        loaded = true;
+                    } catch(Exception ex) {
+                        ex.printStackTrace();
+                        System.out.println("Error while parsing JSON "+result);
+                    }
+                }
+                if (loaded) {
+                    // Reset exponential backoff
+                    loadRetry = 0;
+                    // refresh view
                     refreshListView();
                     // And then store result to local storage
                     localStorageHandler.writeLocalSongCatalog(result);
-                } catch(Exception ex) {
-//                    loadedSongs = new SongItem[0];
-                    ex.printStackTrace();
-                    System.out.println("Error while parsing JSON "+result);
-                    // Schedule a reload
+                } else {
+                    // Schedule a reload with exponential backoff
+                    loadRetry = loadRetry + 1;
                     ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
                     executorService.schedule(new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            loadContent();
+                            loadRemoteContent();
                             return true;
                         }
-                    }, 10, TimeUnit.SECONDS);
+                    }, (2^loadRetry), TimeUnit.SECONDS);
                 }
             }
         }).execute("https://caposong.herokuapp.com/song-data/list");

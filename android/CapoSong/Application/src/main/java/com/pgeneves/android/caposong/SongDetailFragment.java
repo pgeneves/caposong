@@ -127,7 +127,18 @@ public class SongDetailFragment extends Fragment {
     }
 
     private void loadContent() {
-        detailItem = new SongDetailItem(0, "error", null);
+        // Create a default item
+        detailItem = new SongDetailItem(0, "loading...", null);
+        //
+        loadLocalContent();
+        // Use a first view refresh with local content or empty
+        refreshView();
+        // Try a network download
+        // It should be triggered only from a version change in the catalog
+        loadRemoteContent();
+    }
+
+    private void loadLocalContent() {
         // Load from the local storage in case of network access slowness
         String localContent = localStorageHandler.readLocalSongContent(item.getUid());
         if (localContent != null) {
@@ -145,9 +156,9 @@ public class SongDetailFragment extends Fragment {
                 musicPath = null;
             }
         }
-        // Use a first view refresh with local content or empty
-        refreshView();
+    }
 
+    private void loadRemoteContent() {
         new DownloadTask(new IAsyncResourceHandler() {
             @Override
             public void handleAsyncResult(String result) {
