@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by phil on 18/12/2016.
- */
 public class SongDetailFragment extends Fragment {
     private LocalStorageHandler localStorageHandler;
     private MediaPlayer mPlayer;
