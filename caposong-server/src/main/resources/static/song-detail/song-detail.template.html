@@ -1,0 +1,16 @@
+<div ng-if="loaded" ng-cloak>
+    <br>
+    <div class="col-xs-12 view_control_pane">
+        <div class="col-xs-6">
+            <a href="#!/songs">{{$ctrl.langService.messages.return}}</a>
+        </div>
+        <div class="col-xs-6">&nbsp</div>
+    </div>
+    <div class="col-xs-12">
+        <h1>{{$ctrl.song.title}}</h1>
+    </div>
+    <div ng-repeat="sentence in $ctrl.songData track by $index">
+        <div class="col-xs-12"><h4>{{sentence[0]}}</h4></div>
+        <div class="col-xs-12" ng-if="sentence[1]"><h5>{{sentence[1]}}</h5></div>
+    </div>
+</div>
