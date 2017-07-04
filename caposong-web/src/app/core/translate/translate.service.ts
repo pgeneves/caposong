@@ -18,16 +18,19 @@ export class TranslateService {
   private langMap: Map<string, string>;
   private cachedText:  Map<string, Map<string, string>>;
 
-  constructor (private http: Http) {
-    this.loadAllLang();
+  constructor (public http: Http) {
   }
 
   loadAllLang() {
-    Observable.from(this.allLang).map(this.storeLangData)
+    Observable.from(this.allLang).subscribe(result => this.storeLangData(result));
+  }
+
+  storeFirstLangData() {
+    this.storeLangData(this.allLang[0]);
   }
 
   storeLangData(lang: Lang) {
-    this.getLangFile(lang.key).map((data: Map<string, string>) => {this.cachedText[lang.key] = data});
+    this.getLangFile(lang.key).subscribe(result => {this.cachedText[lang.key] = result});
   }
 
   getLangFile(lang: string): Observable<Map<string, string>> {

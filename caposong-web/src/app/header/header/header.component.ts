@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TranslateService} from '../../core/translate/translate.service';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   titleLabel = 'Caposong';
   creditsLabel = 'pgeneves';
+  translateService: TranslateService;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private translateSvi: TranslateService) {
+    this.translateService = translateSvi;
   }
 
+  ngOnInit() {
+    this.translateService.loadAllLang();
+    this.translateService.storeFirstLangData();
+  }
 }
