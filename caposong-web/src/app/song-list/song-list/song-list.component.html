@@ -1,3 +1,19 @@
-<p>
-  song-list works!
-</p>
+<div ng-if="loaded" ng-cloak>
+  <br>
+  <div class="col-xs-12 view_control_pane">
+    <!--<div class="col-xs-2" ng-if="false" >-->
+      <!--<button ng-click="$ctrl.refreshData()">{{$ctrl.langService.messages.refresh}}</button>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2">{{$ctrl.langService.messages.search}}</div>-->
+    <!--<div class="col-xs-3">-->
+      <!--<input ng-model="$ctrl.query"/>-->
+    <!--</div>-->
+    <div class="col-xs-7">&nbsp</div>
+  </div>
+  <br>
+  <div *ngFor="let song of songs">
+    <div class="col-xs-12">
+      <a [routerLink]="['details', song.uid]"><h4>{{song.name}}</h4></a>
+    </div>
+  </div>
+</div>

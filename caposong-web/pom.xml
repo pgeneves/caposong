@@ -26,9 +26,9 @@
           <failOnError>false</failOnError>
           <filesets>
             <fileset>
-              <directory>.</directory>
+              <directory>${basedir}/dist</directory>
               <includes>
-                <include>dist/**/*.*</include>
+                <include>**/*</include>
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
@@ -43,13 +43,13 @@
           <execution>
             <id>angular-cli build</id>
             <configuration>
-              <workingDirectory>.</workingDirectory>
+              <workingDirectory>${basedir}</workingDirectory>
               <executable>ng.cmd</executable>
               <arguments>
                 <argument>build</argument>
-                <argument>--prod</argument>
+                <!--<argument>&#45;&#45;prod</argument>-->
                 <argument>--base-href</argument>
-                <argument>"/caposong-web/"</argument>
+                <argument>.</argument>
               </arguments>
             </configuration>
             <phase>generate-resources</phase>

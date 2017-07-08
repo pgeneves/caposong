@@ -1,21 +1,22 @@
 <div ng-cloak>
   <div class="col-xs-6 col-sm-1 pull-left">
-    <img class="header_icon" src="img/caxixi.jpg"/>
+    <img class="header_icon" src="assets/img/caxixi.jpg"/>
   </div>
   <div class="col-xs-6 col-sm-1 pull-right">
-    <img class="header_icon" src="img/berimbau.jpg"/>
+    <img class="header_icon" src="assets/img/berimbau.jpg"/>
   </div>
   <div class="col-xs-12 col-sm-10 header_block">
     <div class="col-xs-12">
       <h3>{{titleLabel}}</h3>
     </div>
     <div class="col-xs-6">
-      <div class="pull-left"><h6>{{creditsLabel}} <a href="install/caposong.apk"> (Android app)</a></h6></div>
+      <div class="pull-left"><h6>{{creditsLabel}} <a href="assets/install/caposong.apk"> (Android app)</a></h6></div>
     </div>
-    <div>
+    <div class="form-group">
       <div class="col-xs-6">
-        <select ng-model="selected_lang" ng-change="$ctrl.setLang(selected_lang)"
-                ng-options="lang.label for lang in allLangs"></select>
+        <select class="form-control" id="selectedLang" required [(ngModel)]="selectedLang"  name="selectedLang">
+          <option *ngFor="let lng of allLangs" [value]="lng.key">{{lng.label}}</option>
+        </select>
       </div>
     </div>
   </div>

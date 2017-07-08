@@ -19,6 +19,19 @@ export class TranslateService {
   private cachedText:  Map<string, Map<string, string>>;
 
   constructor (public http: Http) {
+    this.cachedText = new Map();
+  }
+
+  getCurrentLang() {
+    return this.curLangKey;
+  }
+
+  setCurrentLang(langKey: string) {
+    this.curLangKey = langKey;
+  }
+
+  getAvailableLang() {
+    return this.allLang;
   }
 
   loadAllLang() {
@@ -34,7 +47,7 @@ export class TranslateService {
   }
 
   getLangFile(lang: string): Observable<Map<string, string>> {
-    return this.http.get('/lang/text_' + lang + '.json')
+    return this.http.get('/assets/lang/text_' + lang + '.json')
       .map(this.extractData)
       .catch(this.ignoreError);
   }

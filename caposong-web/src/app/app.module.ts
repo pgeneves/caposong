@@ -8,6 +8,13 @@ import {SongDetailsModule} from './song-details/song-details.module';
 import {CoreModule} from './core/core.module';
 import {TranslateModule} from './core/translate/translate.module';
 import {HeaderModule} from './header/header.module';
+import {RouterModule, Routes} from '@angular/router';
+import {SongListComponent} from './song-list/song-list/song-list.component';
+
+const routes: Routes = [
+  { path: '',  redirectTo: '/songs', pathMatch: 'full' },
+  { path: 'songs', component: SongListComponent, pathMatch: 'full' },
+];
 
 @NgModule({
   declarations: [
@@ -20,7 +27,8 @@ import {HeaderModule} from './header/header.module';
     SongDetailsModule,
     HttpModule,
     TranslateModule,
-    HeaderModule
+    HeaderModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

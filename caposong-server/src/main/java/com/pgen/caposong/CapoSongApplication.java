@@ -35,7 +35,7 @@ public class CapoSongApplication extends WebMvcConfigurerAdapter {
                 .setCachePeriod(0);
         // Resource handler to reload web content from sources at dev time
         registry.addResourceHandler("/**")
-                .addResourceLocations("file:src/main/resources/static/")
+                .addResourceLocations("file:caposong-server/src/main/resources/static/")
                 .setCachePeriod(0);
         super.addResourceHandlers(registry);
     }

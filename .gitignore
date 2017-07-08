@@ -21,7 +21,4 @@ target/
 **/android/CapoSong/Application/build/*
 **/android/CapoSong/Application/tests/*
 **/android/CapoSong/Application/*.iml
-
-
-
-
+/caposong-server/src/main/resources/static/
