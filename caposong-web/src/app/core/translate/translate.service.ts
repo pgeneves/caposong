@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/from';
@@ -17,6 +19,8 @@ export class TranslateService {
   private curLangKey = 'pt';
   private langMap: Map<string, string>;
   private cachedText:  Map<string, Map<string, string>>;
+  private curLangBs = new BehaviorSubject<string>('pt');
+  curLangObs$ = this.curLangBs.asObservable();
 
   constructor (public http: Http) {
     this.cachedText = new Map();
@@ -28,6 +32,7 @@ export class TranslateService {
 
   setCurrentLang(langKey: string) {
     this.curLangKey = langKey;
+    this.curLangBs.next(langKey);
   }
 
   getAvailableLang() {

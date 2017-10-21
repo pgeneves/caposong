@@ -44,7 +44,7 @@
             <id>angular-cli build</id>
             <configuration>
               <workingDirectory>${basedir}</workingDirectory>
-              <executable>ng.cmd</executable>
+              <executable>ng</executable>
               <arguments>
                 <argument>build</argument>
                 <!--<argument>&#45;&#45;prod</argument>-->

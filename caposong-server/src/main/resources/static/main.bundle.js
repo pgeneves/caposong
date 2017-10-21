@@ -353,12 +353,14 @@ TranslateModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_from__ = __webpack_require__("../../../../rxjs/add/observable/from.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_from___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_from__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_from__ = __webpack_require__("../../../../rxjs/add/observable/from.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_from___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_from__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TranslateService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -375,11 +377,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TranslateService = (function () {
     function TranslateService(http) {
         this.http = http;
         this.allLang = [{ key: 'fr', label: 'Français' }, { key: 'en', label: 'English' }, { key: 'pt', label: 'Portuguêse' }];
         this.curLangKey = 'pt';
+        this.curLangBs = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["BehaviorSubject"]('pt');
+        this.curLangObs$ = this.curLangBs.asObservable();
         this.cachedText = new Map();
     }
     TranslateService.prototype.getCurrentLang = function () {
@@ -387,6 +392,7 @@ var TranslateService = (function () {
     };
     TranslateService.prototype.setCurrentLang = function (langKey) {
         this.curLangKey = langKey;
+        this.curLangBs.next(langKey);
     };
     TranslateService.prototype.getAvailableLang = function () {
         return this.allLang;
@@ -663,6 +669,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+var EmptySong = {
+    title: '',
+    name: '',
+    uid: '',
+    lyrics: [],
+    translate: []
+};
 var SongDetailsComponent = (function () {
     function SongDetailsComponent(route, router, translateSvi, songSvi) {
         this.route = route;
@@ -675,7 +688,7 @@ var SongDetailsComponent = (function () {
             // Get current translation
             var translates = this.song.translate;
             for (var i = 0; i < translates.length; i++) {
-                if (translates[i].lang === this.translateService.getCurrentLang()) {
+                if (translates[i].lang === this.currentLang) {
                     songTranslate = translates[i].lyrics;
                 }
             }
@@ -691,16 +704,25 @@ var SongDetailsComponent = (function () {
         };
         this.translateService = translateSvi;
         this.songService = songSvi;
-        this.song = null;
+        this.song = EmptySong;
         this.sentences = [];
         this.loaded = false;
         this.songUid = '';
+        this.currentLang = '';
+        this.langSubscription = null;
     }
     SongDetailsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         // Only because we not navigate directly to another details
         // The right way is to use Observable on parameters
         this.songUid = this.route.snapshot.paramMap.get('songUid');
+        // Subscribe on language changes
+        this.langSubscription = this.translateService.curLangObs$
+            .subscribe(function (lang) { return _this.applyLang(lang); });
         this.refreshData();
+    };
+    SongDetailsComponent.prototype.ngOnDestroy = function () {
+        this.langSubscription.unsubscribe();
     };
     SongDetailsComponent.prototype.refreshData = function () {
         var _this = this;
@@ -708,8 +730,21 @@ var SongDetailsComponent = (function () {
     };
     SongDetailsComponent.prototype.populateData = function (data) {
         this.song = data;
-        this.formatSongData(data);
         this.loaded = true;
+        this.ngOnChanges();
+    };
+    SongDetailsComponent.prototype.ngOnChanges = function () {
+        if (this.song != null) {
+            this.formatSongData(this.song);
+        }
+        else {
+            var songTranslate = [];
+            this.sentences = [];
+        }
+    };
+    SongDetailsComponent.prototype.applyLang = function (lang) {
+        this.currentLang = lang;
+        this.ngOnChanges();
     };
     return SongDetailsComponent;
 }());
